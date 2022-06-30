@@ -8,8 +8,9 @@ import User from "../img/user.png";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { playlistIdState, playlistState } from "../Recoil/playlistAtom";
 import useSpotify from "../hooks/useSpotify";
+import Songs from "./Songs";
 
-const Container = tw.div`flex-grow text-white`;
+const Container = tw.div`flex-grow relative text-white h-screen overflow-y-scroll scrollbar-hide`;
 
 const Header = tw.header`absolute top-5 right-5 p-1 pr-2 space-x-3 flex items-center bg-black opacity-90 hover:opacity-80 cursor-pointer rounded-full`;
 const UserImg = tw.img`rounded-full w-6 h-6`;
@@ -17,6 +18,8 @@ const UserImg = tw.img`rounded-full w-6 h-6`;
 const Section = styled.section`
   ${tw`flex items-end space-x-7  p-8 h-80 max-h-72`}
 `;
+
+const PlaylistName = tw.h1`text-2xl md:text-3xl xl:text-5xl font-bold `;
 
 const Center = () => {
   const spotifyApi = useSpotify();
@@ -68,11 +71,12 @@ const Center = () => {
           tw="h-44 w-44 shadow-2xl"
           alt="Album images"
         />
-        <h1>{playlist?.name}</h1>
+        <div>
+          <p>PLAYLIST</p>
+          <PlaylistName>{playlist?.name}</PlaylistName>
+        </div>
       </Section>
-      {playlist?.tracks?.items.map((song) => {
-        return <h1>{song?.track?.name}</h1>;
-      })}
+      <Songs />
     </Container>
   );
 };

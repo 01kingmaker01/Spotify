@@ -17,6 +17,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { playlistIdState } from "../Recoil/playlistAtom";
 
+const SidebarCon = tw.div`space-y-4 text-gray-500 p-5 text-sm border-r border-gray-900 overflow-y-scroll  scrollbar-hide h-screen `;
 const MenuBtn = styled.button`
   ${tw`flex space-x-2 items-center hover:text-white transition duration-200 ease-in-out`}
   svg {
@@ -30,6 +31,7 @@ export const Sidebar = () => {
   const { data: sessionData, status } = useSession();
   const [playlists, setPlaylists] = useState([]);
   const [playlistId, setPlaylistId] = useRecoilState(playlistIdState);
+
   useEffect(() => {
     try {
       if (spotifyApi.getAccessToken()) {
@@ -45,8 +47,7 @@ export const Sidebar = () => {
     }
   }, [spotifyApi, sessionData]);
   return (
-    // <div tw="text-gray-500 p-5 text-sm border-r border-t-gray-900">
-    <div tw="space-y-4 text-gray-500 p-5 text-sm border-r border-gray-900 overflow-y-scroll  scrollbar-hide h-screen ">
+    <SidebarCon>
       <MenuBtn
         onClick={() => signOut({ callbackUrl: "http://localhost:3000/login" })}>
         <LogoutIcon /> <p>Log Out</p>
@@ -83,7 +84,7 @@ export const Sidebar = () => {
           {playlist.name}
         </PlayListName>
       ))}
-    </div>
+    </SidebarCon>
     // </div>
   );
 };
