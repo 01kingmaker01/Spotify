@@ -3,9 +3,9 @@ import { useEffect } from "react";
 import SpotifyWebApi from "spotify-web-api-node";
 
 var spotifyApi = new SpotifyWebApi({
-  clientId: process.env.SPOTIFY_CLIENT_ID,
-  clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-  // redirectUri: process.env.
+  clientId: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
+  clientSecret: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET,
+  // redirectUri: process.env.NEXT_PUBLIC_
 });
 
 function useSpotify() {
