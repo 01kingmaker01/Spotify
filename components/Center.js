@@ -5,6 +5,9 @@ import { useEffect } from "react";
 import { useState } from "react";
 import tw, { styled } from "twin.macro";
 import User from "../img/user.png";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { playlistIdState, playlistState } from "../Recoil/playlistAtom";
+import useSpotify from "../hooks/useSpotify";
 
 const Container = tw.div`flex-grow text-white`;
 
@@ -12,12 +15,15 @@ const Header = tw.header`absolute top-5 right-5 p-1 pr-2 space-x-3 flex items-ce
 const UserImg = tw.img`rounded-full w-6 h-6`;
 
 const Section = styled.section`
-  ${tw`flex items-end space-x-7  p-8 h-1/3 max-h-72`}
+  ${tw`flex items-end space-x-7  p-8 h-80 max-h-72`}
 `;
 
 const Center = () => {
-  const { data: session } = useSession();
+  const spotifyApi = useSpotify();
+  const { data: sessionData } = useSession();
   const [color, setColor] = useState(null);
+  const playlistId = useRecoilValue(playlistIdState);
+  const [playlist, setPlaylist] = useRecoilState(playlistState);
 
   const getColor = () => `hsl(${360 * Math.random()}, 100%, 50%)`;
   //   const getColor = () =>
@@ -26,8 +32,14 @@ const Center = () => {
   //     }%)`;
 
   useEffect(() => {
-    setColor(getColor());
-  }, []);
+    if (spotifyApi.getAccessToken()) {
+      setColor(getColor());
+      spotifyApi.getPlaylist(playlistId).then(({ body }) => {
+        console.log(body);
+        return setPlaylist(body);
+      });
+    }
+  }, [playlistId, sessionData, spotifyApi]);
 
   const styles = [
     tw`to-black bg-gradient-to-b`,
@@ -41,17 +53,26 @@ const Center = () => {
       <Header>
         <UserImg
           src={
-            session?.user?.image === undefined ? User.src : session?.user?.image
+            sessionData?.user?.image === undefined
+              ? User.src
+              : sessionData?.user?.image
           }
           alt="User_Img"
         />
-        <h2>{session?.user.name} </h2>
+        <h2>{sessionData?.user.name} </h2>
         <ChevronDownIcon tw="h-5 w-5" />
       </Header>
       <Section css={styles}>
-        {/* <img src="" alt="" /> */}
-        <h1>Hello</h1>
+        <img
+          src={playlist?.images[0]?.url}
+          tw="h-44 w-44 shadow-2xl"
+          alt="Album images"
+        />
+        <h1>{playlist?.name}</h1>
       </Section>
+      {playlist?.tracks?.items.map((song) => {
+        return <h1>{song?.track?.name}</h1>;
+      })}
     </Container>
   );
 };

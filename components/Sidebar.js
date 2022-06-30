@@ -2,6 +2,7 @@ import styled from "styled-components";
 import tw from "twin.macro";
 import { signOut } from "next-auth/react";
 import useSpotify from "../hooks/useSpotify";
+import { useRecoilState } from "recoil";
 
 import {
   HomeIcon,
@@ -14,6 +15,7 @@ import {
 } from "@heroicons/react/outline";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { playlistIdState } from "../Recoil/playlistAtom";
 
 const MenuBtn = styled.button`
   ${tw`flex space-x-2 items-center hover:text-white transition duration-200 ease-in-out`}
@@ -27,32 +29,21 @@ export const Sidebar = () => {
   const spotifyApi = useSpotify();
   const { data: sessionData, status } = useSession();
   const [playlists, setPlaylists] = useState([]);
-
-  useEffect(
-    () =>
-      (async () => {
-        try {
-          if (spotifyApi.getAccessToken()) {
-            console.log("if it works, this line should be shown");
-
-            await spotifyApi.getUserPlaylists().then(({ body }) => {
-              console.log(body);
-              setPlaylists(body.items);
-            });
-          }
-        } catch (e) {
-          console.log("Error in Sidebar UseEffect", `\n ${e}`);
-        }
-      })(),
-    [spotifyApi, sessionData]
-  );
-  //  return spotifyApi
-  //     .getUserPlaylists()
-  //     .then((data) => {
-  //       console.log("Retrieved playlists", data.body);
-  //       return setPlaylist(data.body.items);
-  //     })
-  //     .catch((e) => console.log(e));
+  const [playlistId, setPlaylistId] = useRecoilState(playlistIdState);
+  useEffect(() => {
+    try {
+      if (spotifyApi.getAccessToken()) {
+        console.table(sessionData);
+        console.table(spotifyApi._credentials);
+        spotifyApi.getUserPlaylists().then(({ body }) => {
+          // console.log({ id: body.items[0].id });
+          setPlaylists(body?.items);
+        });
+      }
+    } catch (e) {
+      console.log("Error in Sidebar UseEffect", `\n ${e}`);
+    }
+  }, [spotifyApi, sessionData]);
   return (
     // <div tw="text-gray-500 p-5 text-sm border-r border-t-gray-900">
     <div tw="space-y-4 text-gray-500 p-5 text-sm border-r border-gray-900 overflow-y-scroll  scrollbar-hide h-screen ">
@@ -86,7 +77,11 @@ export const Sidebar = () => {
 
       {/* PlayList */}
       {playlists.map((playlist) => (
-        <PlayListName key={playlist.id}>{playlist.name}</PlayListName>
+        <PlayListName
+          key={playlist.id}
+          onClick={() => setPlaylistId(playlist.id)}>
+          {playlist.name}
+        </PlayListName>
       ))}
     </div>
     // </div>

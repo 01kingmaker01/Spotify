@@ -17,14 +17,13 @@ const refreshAccessTokenFun = async (token) => {
     };
   } catch (e) {
     console.table(e);
-    console.log({ error: "refreshAccessTokenError" });
+    console.log({ error: "RefreshAccessTokenError" });
     return {
       ...token,
-      error: "refreshAccessTokenError",
+      error: "RefreshAccessTokenError",
     };
   } finally {
-    console.log(`Refreshed Token is `);
-    console.log(refreshedToken.message);
+    console.log(`Refreshed Token is \n`, refreshedToken);
   }
 };
 
@@ -32,19 +31,20 @@ export default NextAuth({
   // Configure one or more authentication providers
   providers: [
     SpotifyProvider({
-      clientId: process.env.SPOTIFY_CLIENT_ID,
-      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+      clientId: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
+      clientSecret: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET,
       authorization: LOGIN_URL,
     }),
     // ...add more providers here
   ],
-  secret: process.env.JWT_SECRET,
+  secret: process.env.NEXT_PUBLIC_JWT_SECRET,
   pages: {
     signIn: "/login",
   },
   callbacks: {
     async jwt({ token, account, user }) {
       //Initial login
+      console.log("jwt");
       if (account && user) {
         return {
           ...token,
