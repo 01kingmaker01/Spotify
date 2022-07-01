@@ -17,7 +17,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { playlistIdState } from "../Recoil/playlistAtom";
 
-const SidebarCon = tw.div`space-y-4 text-gray-500 p-5 text-sm border-r border-gray-900 overflow-y-scroll  scrollbar-hide h-screen `;
+const SidebarCon = tw.div`space-y-4 text-gray-500 p-5 text-sm border-r border-gray-900 overflow-y-scroll  scrollbar-hide h-screen sm:max-w-[12rem] lg:max-w-[15rem ] hidden md:inline-block`;
 const MenuBtn = styled.button`
   ${tw`flex space-x-2 items-center hover:text-white transition duration-200 ease-in-out`}
   svg {
@@ -35,8 +35,6 @@ export const Sidebar = () => {
   useEffect(() => {
     try {
       if (spotifyApi.getAccessToken()) {
-        console.table(sessionData);
-        console.table(spotifyApi._credentials);
         spotifyApi.getUserPlaylists().then(({ body }) => {
           // console.log({ id: body.items[0].id });
           setPlaylists(body?.items);

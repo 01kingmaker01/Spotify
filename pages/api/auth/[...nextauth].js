@@ -17,9 +17,13 @@ const refreshAccessTokenFun = async (token) => {
     };
   } catch (e) {
     console.table(e);
-    console.log({ error: "RefreshAccessTokenError" });
+    console.log({
+      error: "RefreshAccessTokenError",
+      errorIn: "refreshAccessTokenFun",
+    });
     return {
       ...token,
+      errorIn: "refreshAccessTokenFun",
       error: "RefreshAccessTokenError",
     };
   }

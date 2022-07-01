@@ -1,4 +1,7 @@
+import { useRecoilState } from "recoil";
 import tw from "twin.macro";
+import useSpotify from "../hooks/useSpotify";
+import { currentSongIdState, isPlayingState } from "../Recoil/songAtom";
 
 const GridCon = tw.div`grid grid-cols-2  p-4 text-gray-500 hover:bg-gray-900 rounded-lg cursor-pointer`;
 const Con1 = tw.div`flex space-x-4 items-center`;
@@ -16,6 +19,10 @@ const milliSecToMinAndSec = (milliSec) => {
 };
 
 const Song = ({ order, song }) => {
+  const spotifyApi = useSpotify();
+  const [currentSongId, setCurrentSongId] = useRecoilState(currentSongIdState);
+  const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
+
   return (
     <GridCon>
       <Con1>

@@ -12,7 +12,7 @@ import Songs from "./Songs";
 
 const Container = tw.div`flex-grow relative text-white h-screen overflow-y-scroll scrollbar-hide`;
 
-const Header = tw.header`absolute top-5 right-5 p-1 pr-2 space-x-3 flex items-center bg-black opacity-90 hover:opacity-80 cursor-pointer rounded-full`;
+const Header = tw.header`absolute top-5 right-5 p-1 pr-2 space-x-3 flex items-center bg-black opacity-90 hover:opacity-80 cursor-pointer rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500`;
 const UserImg = tw.img`rounded-full w-6 h-6`;
 
 const Section = styled.section`
@@ -27,7 +27,7 @@ const Center = () => {
   const [color, setColor] = useState(null);
   const playlistId = useRecoilValue(playlistIdState);
   const [playlist, setPlaylist] = useRecoilState(playlistState);
-
+  const [dropDownState, setDropDownState] = useState(false);
   const getColor = () => `hsl(${360 * Math.random()}, 100%, 50%)`;
   //   const getColor = () =>
   //     `hsl(${360 * Math.random()}, ${25 + 70 * Math.random()}%, ${
@@ -38,7 +38,6 @@ const Center = () => {
     if (spotifyApi.getAccessToken()) {
       setColor(getColor());
       spotifyApi.getPlaylist(playlistId).then(({ body }) => {
-        console.log(body);
         return setPlaylist(body);
       });
     }
@@ -53,7 +52,12 @@ const Center = () => {
   ];
   return (
     <Container>
-      <Header>
+      <Header
+        onClick={() => setDropDownState((dropDownState) => !dropDownState)}
+        style={{ "-webkit-tap-highlight-color": "rgba(0, 0, 0, 0)" }}
+        typeof="button"
+        aria-expanded={dropDownState}
+        aria-haspopup={dropDownState}>
         <UserImg
           src={
             sessionData?.user?.image === undefined
