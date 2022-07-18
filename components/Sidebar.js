@@ -48,7 +48,7 @@ export const Sidebar = () => {
     <SidebarCon>
       <MenuBtn
         onClick={() =>
-          signOut({ callbackUrl: "https://spotify-rose.vercel.app/login" })
+          signOut({ callbackUrl: "spotify-rose.vercel.app/login" })
         }>
         <LogoutIcon /> <p>Log Out</p>
       </MenuBtn>

@@ -12,6 +12,6 @@ export async function middleware(req, res) {
   if (pathname.includes("/api/auth") || token) return NextResponse.next();
   if (pathname !== "/login" && !token) {
     console.log({ middlewareToken: token });
-    return NextResponse.redirect("https://spotify-rose.vercel.app/login");
+    return NextResponse.redirect("spotify-rose.vercel.app/login");
   }
 }
