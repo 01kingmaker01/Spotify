@@ -47,7 +47,9 @@ export const Sidebar = () => {
   return (
     <SidebarCon>
       <MenuBtn
-        onClick={() => signOut({ callbackUrl: "http://localhost:3000/login" })}>
+        onClick={() =>
+          signOut({ callbackUrl: "https://www.spotify-rose.vercel.app/login" })
+        }>
         <LogoutIcon /> <p>Log Out</p>
       </MenuBtn>
       <MenuBtn>
