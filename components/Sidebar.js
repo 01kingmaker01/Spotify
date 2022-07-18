@@ -17,7 +17,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { playlistIdState } from "../Recoil/playlistAtom";
 
-const SidebarCon = tw.div`space-y-4 text-gray-500 p-5 text-sm border-r border-gray-900 overflow-y-scroll  scrollbar-hide h-screen sm:max-w-[12rem] lg:max-w-[15rem ] hidden md:inline-block`;
+const SidebarCon = tw.div`space-y-4 text-gray-500 p-5 text-sm border-r border-gray-900 overflow-y-scroll  scrollbar-hide h-screen sm:max-w-[12rem] lg:max-w-[15rem ] hidden md:inline-block pb-20`;
 const MenuBtn = styled.button`
   ${tw`flex space-x-2 items-center hover:text-white transition duration-200 ease-in-out`}
   svg {

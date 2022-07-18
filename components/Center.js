@@ -10,7 +10,7 @@ import { playlistIdState, playlistState } from "../Recoil/playlistAtom";
 import useSpotify from "../hooks/useSpotify";
 import Songs from "./Songs";
 
-const Container = tw.div`flex-grow relative text-white h-screen overflow-y-scroll scrollbar-hide`;
+const Container = tw.div`flex-grow relative text-white h-screen overflow-y-scroll scrollbar-hide pb-20`;
 
 const Header = tw.header`absolute top-5 right-5 p-1 pr-2 space-x-3 flex items-center bg-black opacity-90 hover:opacity-80 cursor-pointer rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500`;
 const UserImg = tw.img`rounded-full w-6 h-6`;
@@ -29,19 +29,16 @@ const Center = () => {
   const [playlist, setPlaylist] = useRecoilState(playlistState);
   const [dropDownState, setDropDownState] = useState(false);
   const getColor = () => `hsl(${360 * Math.random()}, 100%, 50%)`;
-  //   const getColor = () =>
-  //     `hsl(${360 * Math.random()}, ${25 + 70 * Math.random()}%, ${
-  //       75 + 10 * Math.random()
-  //     }%)`;
 
   useEffect(() => {
-    if (spotifyApi.getAccessToken()) {
-      setColor(getColor());
-      spotifyApi.getPlaylist(playlistId).then(({ body }) => {
-        return setPlaylist(body);
-      });
-    }
-  }, [playlistId, sessionData, spotifyApi]);
+    setColor(getColor());
+  }, [playlistId]);
+
+  useEffect(() => {
+    spotifyApi.getPlaylist(playlistId).then(({ body }) => {
+      return setPlaylist(body);
+    });
+  }, [playlistId, spotifyApi]);
 
   const styles = [
     tw`to-black bg-gradient-to-b`,

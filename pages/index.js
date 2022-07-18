@@ -2,16 +2,16 @@ import { Sidebar } from "../components/Sidebar";
 import tw from "twin.macro";
 import Center from "../components/Center";
 import { getSession } from "next-auth/react";
+import Player from "../components/Player";
 
 const Home = () => {
   return (
     <div tw="bg-black h-screen overflow-hidden">
-      {/* <h1>A Spotify Clone by Ketan Chavan</h1> */}
-      <main tw="flex">
+      <main tw="flex ">
         <Sidebar />
         <Center />
       </main>
-      <div>{/* <footer>Player</footer> */}</div>
+      <Player />
     </div>
   );
 };

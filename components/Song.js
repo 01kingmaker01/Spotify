@@ -7,7 +7,7 @@ const GridCon = tw.div`grid grid-cols-2  p-4 text-gray-500 hover:bg-gray-900 rou
 const Con1 = tw.div`flex space-x-4 items-center`;
 const Con2 = tw.div`flex items-center justify-between ml-auto md:ml-0`;
 const Order = tw.p``;
-const SongImage = tw.img`h-10 w-10 rounded`;
+const SongImage = tw.img`h-10 w-10 rounded `;
 const SongName = tw.p``;
 
 const milliSecToMinAndSec = (milliSec) => {
@@ -19,12 +19,20 @@ const milliSecToMinAndSec = (milliSec) => {
 };
 
 const Song = ({ order, song }) => {
-  const spotifyApi = useSpotify();
+  // const spotifyApi = useSpotify();
   const [currentSongId, setCurrentSongId] = useRecoilState(currentSongIdState);
   const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
 
+  const playSong = () => {
+    setCurrentSongId(song.track.id);
+    setIsPlaying(true);
+    // spotifyApi.play({
+    //   uris: [song.track.uri],
+    // });
+  };
+
   return (
-    <GridCon>
+    <GridCon onClick={() => playSong()}>
       <Con1>
         <p tw="flex justify-end w-6">{order + 1}</p>
         <SongImage
