@@ -9,7 +9,7 @@ import {
   VolumeUpIcon,
 } from "@heroicons/react/solid";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import tw from "twin.macro";
@@ -70,6 +70,33 @@ const Player = () => {
     }
   };
 
+  const Debounce = (fn, wait) => {
+    let Timer;
+    return (...args) => {
+      console.log([...args]);
+      if (Timer) clearTimeout(Timer);
+      Timer = setTimeout(() => {
+        fn(...args), wait;
+      });
+    };
+  };
+
+  const debouncedAdjustVolume = useCallback(
+    Debounce(
+      (volume) =>
+        spotifyApi.setVolume(volume).catch((err) => {
+          console.log(err);
+        }),
+      5000000
+    ),
+    [volume]
+  );
+
+  useEffect(() => {
+    if (volume >= 0 && volume <= 100) {
+      debouncedAdjustVolume(volume);
+    }
+  }, [volume]);
   return (
     <PlayerCon>
       <LeftCon>
@@ -79,7 +106,7 @@ const Player = () => {
           alt=""
         />
         <div>
-          <h3 tw="truncate w-24 md:w-auto">{songInfo?.name} </h3>
+          <h3 tw="truncate w-24 md:w-44">{songInfo?.name} </h3>
           <p tw="truncate w-24 md:w-auto text-xs text-gray-300">
             {songInfo?.artists?.[0].name}
           </p>
