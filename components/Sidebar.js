@@ -46,9 +46,15 @@ export const Sidebar = () => {
   }, [spotifyApi, sessionData]);
   return (
     <SidebarCon>
+      {console.log(process.env.NODE_ENV, process.env.production)}
       <MenuBtn
         onClick={() =>
-          signOut({ callbackUrl: "spotify-rose.vercel.app/login" })
+          signOut({
+            callbackUrl:
+              process.env.NODE_ENV === "production"
+                ? "spotify-rose.vercel.app/login"
+                : "http://localhost:3000/login",
+          })
         }>
         <LogoutIcon /> <p>Log Out</p>
       </MenuBtn>

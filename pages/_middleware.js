@@ -8,10 +8,10 @@ export async function middleware(req, res) {
   });
 
   const { pathname } = req.nextUrl;
-  console.log({ pathname });
+  const URL = req.nextUrl.clone();
+  URL.pathname = "/login";
   if (pathname.includes("/api/auth") || token) return NextResponse.next();
   if (pathname !== "/login" && !token) {
-    console.log({ middlewareToken: token });
-    return NextResponse.redirect("spotify-rose.vercel.app/login");
+    return NextResponse.rewrite(URL);
   }
 }
