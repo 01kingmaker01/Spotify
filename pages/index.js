@@ -6,7 +6,7 @@ import Player from "../components/Player";
 
 const Home = () => {
   return (
-    <div tw="bg-black h-screen overflow-hidden">
+    <div tw="bg-black h-screen overflow-hidden relative md:static">
       <main tw="flex ">
         <Sidebar />
         <Center />

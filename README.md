@@ -69,41 +69,41 @@ You can import `GlobalStyles` within a new file placed in `components/GlobalStyl
 
 ```js
 // components/GlobalStyles.js
-import React from 'react'
-import { createGlobalStyle } from 'styled-components'
-import tw, { theme, GlobalStyles as BaseStyles } from 'twin.macro'
+import React from "react";
+import { createGlobalStyle } from "styled-components";
+import tw, { theme, GlobalStyles as BaseStyles } from "twin.macro";
 
 const CustomStyles = createGlobalStyle`
   body {
-    -webkit-tap-highlight-color: ${theme`colors.purple.500`};
+    WebkitTapHighlightColor?: ${theme`colors.purple.500`};
     ${tw`antialiased`}
   }
-`
+`;
 
 const GlobalStyles = () => (
   <>
     <BaseStyles />
     <CustomStyles />
   </>
-)
+);
 
-export default GlobalStyles
+export default GlobalStyles;
 ```
 
 Then import the GlobalStyles file in `pages/_app.js`:
 
 ```js
 // pages/_app.js
-import GlobalStyles from './../components/GlobalStyles'
+import GlobalStyles from "./../components/GlobalStyles";
 
 const App = ({ Component, pageProps }) => (
   <div>
     <GlobalStyles />
     <Component {...pageProps} />
   </div>
-)
+);
 
-export default App
+export default App;
 ```
 
 ### Add the twin config
@@ -116,10 +116,10 @@ a) Either in `babel-plugin-macros.config.js`:
 // babel-plugin-macros.config.js
 module.exports = {
   twin: {
-    preset: 'styled-components',
+    preset: "styled-components",
     autoCssProp: false,
   },
-}
+};
 ```
 
 b) Or in `package.json`:
@@ -140,12 +140,12 @@ Add this babel configuration in `.babelrc.js`:
 ```js
 // In .babelrc.js
 module.exports = {
-  presets: [['next/babel', { 'preset-react': { runtime: 'automatic' } }]],
+  presets: [["next/babel", { "preset-react": { runtime: "automatic" } }]],
   plugins: [
-    'babel-plugin-macros',
-    ['babel-plugin-styled-components', { ssr: true }],
+    "babel-plugin-macros",
+    ["babel-plugin-styled-components", { ssr: true }],
   ],
-}
+};
 ```
 
 ### Add the server stylesheet
@@ -154,19 +154,20 @@ To avoid the ugly Flash Of Unstyled Content (FOUC), add a server stylesheet in `
 
 ```js
 // pages/_document.js
-import Document from 'next/document'
-import { ServerStyleSheet } from 'styled-components'
+import Document from "next/document";
+import { ServerStyleSheet } from "styled-components";
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
-    const sheet = new ServerStyleSheet()
-    const originalRenderPage = ctx.renderPage
+    const sheet = new ServerStyleSheet();
+    const originalRenderPage = ctx.renderPage;
     try {
       ctx.renderPage = () =>
         originalRenderPage({
-          enhanceApp: App => props => sheet.collectStyles(<App {...props} />),
-        })
-      const initialProps = await Document.getInitialProps(ctx)
+          enhanceApp: (App) => (props) =>
+            sheet.collectStyles(<App {...props} />),
+        });
+      const initialProps = await Document.getInitialProps(ctx);
 
       return {
         ...initialProps,
@@ -176,9 +177,9 @@ export default class MyDocument extends Document {
             {sheet.getStyleElement()}
           </>
         ),
-      }
+      };
     } finally {
-      sheet.seal()
+      sheet.seal();
     }
   }
 }

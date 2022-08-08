@@ -8,10 +8,8 @@ export async function middleware(req, res) {
   });
 
   const { pathname } = req.nextUrl;
-  const URL = req.nextUrl.clone();
-  URL.pathname = "/login";
   if (pathname.includes("/api/auth") || token) return NextResponse.next();
   if (pathname !== "/login" && !token) {
-    return NextResponse.rewrite(URL);
+    return NextResponse.rewrite(new URL("/login", req.url));
   }
 }

@@ -10,9 +10,9 @@ import { playlistIdState, playlistState } from "../Recoil/playlistAtom";
 import useSpotify from "../hooks/useSpotify";
 import Songs from "./Songs";
 
-const Container = tw.div`flex-grow relative text-white h-screen overflow-y-scroll scrollbar-hide pb-20`;
+const Container = tw.div`flex-grow relative text-white h-screen overflow-y-scroll overflow-x-hidden scrollbar-hide pb-20`;
 
-const Header = tw.header`absolute top-5 right-5 p-1 pr-2 space-x-3 flex items-center bg-black opacity-90 hover:opacity-80 cursor-pointer rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500`;
+const Header = tw.header`absolute top-5 left-5 p-1 pr-2 space-x-3 items-center bg-black opacity-90 hover:opacity-80 cursor-pointer rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500 flex md:(left-auto right-5)`;
 const UserImg = tw.img`rounded-full w-6 h-6`;
 
 const Section = styled.section`
@@ -51,7 +51,7 @@ const Center = () => {
     <Container>
       <Header
         onClick={() => setDropDownState((dropDownState) => !dropDownState)}
-        style={{ "-webkit-tap-highlight-color": "rgba(0, 0, 0, 0)" }}
+        style={{ "WebkitTapHighlightColor?": "rgba(0, 0, 0, 0)" }}
         typeof="button"
         aria-expanded={dropDownState}
         aria-haspopup={dropDownState}>
