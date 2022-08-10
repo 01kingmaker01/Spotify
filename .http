@@ -1,1 +1,0 @@
-curl -X "GET" "https://coronavirus-smartable.p.rapidapi.com/news/v1/US/" -H 'X-RapidAPI-Key': 'd69fb9fa68msh29026bdb504ed5ep1394adjsnfca272fb3529' -H 'X-RapidAPI-Host': 'coronavirus-smartable.p.rapidapi.com'
